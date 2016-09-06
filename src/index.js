@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import YTSearch from 'youtube-api-search';
 import SearchBar from './components/search_bar';
+import VideoList from './components/video_list';
+import VideoDetail from './components/video_detail';
 // YouTube API key
 const API_KEY = "AIzaSyBJzVD6kyHxHyP8eOtrZbwbXpBElT_6Rus"
 
@@ -14,35 +16,49 @@ const API_KEY = "AIzaSyBJzVD6kyHxHyP8eOtrZbwbXpBElT_6Rus"
 
 // Downwards data flow: the highest parent component should fetch and recieve API data 
 
-// Ex. search for a video
-YTSearch({key: API_KEY, term: 'surfboards'}, function(data) {
-	console.log(data);
-});
 
 // refactored to class-based syntax
 class App extends Component {
 	constructor(props) {
+		// constructor function runs when app first runs
 		super(props);
 
-		this.state = { videos: [] };
+		this.state = { 
+			videos: [],
+			selectedVideo: null
+			};
+
+		// selectedVideo, will get passed to VideoDetail. 
 
 		// search for a video immediately when app boots
 		YTSearch({key: API_KEY, term: 'surfboards'}, (videos) => {
 				// update results with videos from new search term by changing state
-				this.setState({ videos });
+				this.setState({ videos: videos,
+					selectedVideo: videos[0]
+				 });
 				// when key and value are the same string/variable name, can condense to { string } in ES6
 			});
 
 	}
 	render() {
+		// it renders, even if the constructor isn't done retrieving data. in that case, you might get an error
 
 	return (
 		<div>
 			<SearchBar />
-		</div>
+			<VideoDetail video={this.state.selectedVideo} />
+			<VideoList 
+				onVideoSelect{selectedVideo => this.setState({selectedVideo}) } 
+				videos={this.state.videos} />
+			</div>
 		);
 	}
 }
+
+// onVideoSelect function updates App state with new video called from VideoList
+
+// pass data from parent component App to child component VideoList
+// passing the prop called videos to VideoList
 
 // App: is a class
 // <App />: is an instance
