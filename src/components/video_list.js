@@ -14,7 +14,7 @@ const VideoList = (props) => {
 	});
 	return (
 		// in React, use className instead of class in JSX html
-		<ul className="col-md-12 list-group">
+		<ul className="col-md-4 list-group">
 			{videoItems}
 		</ul>
 

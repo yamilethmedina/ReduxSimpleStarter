@@ -1,4 +1,5 @@
 // Please retrieve React from the installed dependency and give me access. Get the react library and import it under the name React
+import _ from 'lodash';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import YTSearch from 'youtube-api-search';
@@ -47,11 +48,11 @@ class App extends Component {
 
 
 	render() {
-		// it renders, even if the constructor isn't done retrieving data. in that case, you might get an error
-
+	// this function will only be called every 300 milliseconds
+	const videoSearch = _.debounce((term) => { this.videoSearch(term) }, 300)
 	return (
 		<div>
-			<SearchBar onSearchTermChange={term => this.videoSearch(term)} />
+			<SearchBar onSearchTermChange={videoSearch} />
 			<VideoDetail video={this.state.selectedVideo} />
 			<VideoList onVideoSelect={selectedVideo => this.setState({selectedVideo})} videos={this.state.videos} />
 			</div>

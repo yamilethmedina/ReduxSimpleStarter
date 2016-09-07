@@ -43,6 +43,7 @@ class SearchBar extends Component {
 	// 	console.log(event.target.value);
 	// }
 
+// pass a single term to callback for searching
 	onInputChange(term) {
 		this.setState({term});
 		this.props.onSearchTermChange(term);
