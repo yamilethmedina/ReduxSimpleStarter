@@ -6,7 +6,7 @@ import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
 // YouTube API key
-const API_KEY = "AIzaSyBJzVD6kyHxHyP8eOtrZbwbXpBElT_6Rus"
+const API_KEY = "AIzaSyBJzVD6kyHxHyP8eOtrZbwbXpBElT_6Rus";
 
 
 // Create a new component, which should produce some HTML
@@ -29,27 +29,31 @@ class App extends Component {
 			};
 
 		// selectedVideo, will get passed to VideoDetail. 
-
-		// search for a video immediately when app boots
-		YTSearch({key: API_KEY, term: 'surfboards'}, (videos) => {
-				// update results with videos from new search term by changing state
-				this.setState({ videos: videos,
-					selectedVideo: videos[0]
-				 });
-				// when key and value are the same string/variable name, can condense to { string } in ES6
-			});
-
+		this.videoSearch('surfboards');
 	}
+
+	// define callback
+	videoSearch(term) {
+
+	// search for a video immediately when app boots
+		YTSearch({key: API_KEY, term: term}, (videos) => {
+			// update results with videos from new search term by changing state
+			this.setState({ videos: videos,
+				selectedVideo: videos[0]
+				});
+			// when key and value are the same string/variable name, can condense to { string } in ES6
+		});
+}
+
+
 	render() {
 		// it renders, even if the constructor isn't done retrieving data. in that case, you might get an error
 
 	return (
 		<div>
-			<SearchBar />
+			<SearchBar onSearchTermChange={term => this.videoSearch(term)} />
 			<VideoDetail video={this.state.selectedVideo} />
-			<VideoList 
-				onVideoSelect{selectedVideo => this.setState({selectedVideo}) } 
-				videos={this.state.videos} />
+			<VideoList onVideoSelect={selectedVideo => this.setState({selectedVideo})} videos={this.state.videos} />
 			</div>
 		);
 	}

@@ -30,10 +30,10 @@ class SearchBar extends Component {
 		// when the onChange handler runs, the value of the input hasn't actually changed yet (until it re-renders)
 		// when a user types something, they didn't change the input value; they only triggered the event. the value of the input changes only because this.State changed the state
 		return (
-			<div>
+			<div className="search-bar">
 				<input
 				value={this.state.term} 
-				onChange={(event) => this.setState({ term: event.target.value })} />
+				onChange={event => this.onInputChange(event.target.value)} />
 			</div>
 		);
 	}
@@ -42,6 +42,12 @@ class SearchBar extends Component {
 	// 	// console.log the text entered in the input
 	// 	console.log(event.target.value);
 	// }
+
+	onInputChange(term) {
+		this.setState({term});
+		this.props.onSearchTermChange(term);
+
+	}
 }
 
 // any file in our application that imports SearchBar will get the SearchBar component

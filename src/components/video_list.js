@@ -8,7 +8,7 @@ const VideoList = (props) => {
 	// passing the prop from App into VideoListItem
 	const videoItems = props.videos.map((video) => {
 		return <VideoListItem
-		onVideoClick={props.onVideoSelect} 
+		onVideoSelect={props.onVideoSelect} 
 		key={video.etag}
 		video={video} />
 	});
